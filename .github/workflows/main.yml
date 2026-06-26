@@ -37,10 +37,10 @@ jobs:
       - name: Upload build to S3
         run: aws s3 sync dist/ "s3://cicddev-kiwivoiceassistant/cicddev/${{ github.sha }}/" --delete
 
-      - name: Release on EC2
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: /usr/local/bin/release-cicddev.sh ${{ github.sha }}
+      # - name: Release on EC2
+      #   uses: appleboy/ssh-action@v1
+      #   with:
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ${{ secrets.EC2_USER }}
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     script: /usr/local/bin/release-cicddev.sh ${{ github.sha }}
