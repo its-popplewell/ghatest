@@ -31,7 +31,7 @@ jobs:
       - name: Authenticate to AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::981651290900:oidc-provider/token.actions.githubusercontent.com
+          role-to-assume: arn:aws:iam::981651290900:role/gha-cicddev-deploy
           aws-region: us-east-1
 
       - name: Upload build to S3
