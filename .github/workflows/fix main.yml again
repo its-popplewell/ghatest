@@ -35,7 +35,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Upload build to S3
-        run: aws s3 sync dist/ "s3://mycompany-deploy-artifacts/cicddev/${{ github.sha }}/" --delete
+        run: aws s3 sync dist/ "s3://cicddev-kiwivoiceassistant/cicddev/${{ github.sha }}/" --delete
 
       - name: Release on EC2
         uses: appleboy/ssh-action@v1
