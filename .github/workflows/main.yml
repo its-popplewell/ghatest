@@ -3,23 +3,23 @@ name: Deploy cicddev
 on:
   push:
     branches: [cicddev]
-  workflow_dispatch:        # adds a "Run workflow" button for manual testing
+  workflow_dispatch:
 
 permissions:
-  id-token: write           # lets this run authenticate to AWS via OIDC
-  contents: read            # lets it check out  repo
+  id-token: write
+  contents: read
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -35,12 +35,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Upload build to S3
-        run: aws s3 sync dist/ "s3://cicddev-kiwivoiceassistant/cicddev/${{ github.sha }}/" --delete
+        run: aws s3 sync dist/ "s3://cicddev-kiwivoiceassistant/cicddev/" --delete
 
-      # - name: Release on EC2
-      #   uses: appleboy/ssh-action@v1
-      #   with:
-      #     host: ${{ secrets.EC2_HOST }}
-      #     username: ${{ secrets.EC2_USER }}
-      #     key: ${{ secrets.EC2_SSH_KEY }}
-      #     script: /usr/local/bin/release-cicddev.sh ${{ github.sha }}
+      - name: Invalidate CloudFront cache
+        run: aws cloudfront create-invalidation --distribution-id E2OZUYVWNIRDIE --paths "/*"
