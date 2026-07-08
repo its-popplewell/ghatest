@@ -7,6 +7,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <h1> HELLO WORLD </h1>
     <h1> HELLO WORLD </h1>
+    <h1> Hello world x3</h1>
     <App />
   </StrictMode>,
 )
